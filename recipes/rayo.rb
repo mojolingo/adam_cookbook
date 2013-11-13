@@ -1,3 +1,5 @@
+include_recipe 'freeswitch::rayo'
+
 template "#{node['freeswitch']['confpath']}/autoload_configs/rayo.conf.xml" do
   owner node['freeswitch']['user']
   group node['freeswitch']['group']

@@ -29,3 +29,4 @@ end
 
 depends 'ejabberd', '~> 0.1.1'
 depends 'freeswitch', '~> 0.2.0'
+depends 'sudo', '~> 2.2'
