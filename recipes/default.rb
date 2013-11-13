@@ -45,7 +45,7 @@ unless ruby_components.empty?
     ruby_version ruby
   end
 
-  if node[:adam][:standalone_deployment]
+  if node['adam']['standalone_deployment']
     links = {}
     ruby_components.each do |component|
       links["#{component}/vendor/ruby"] = "#{component}/vendor/ruby"
