@@ -11,21 +11,16 @@ recipe            'adam_snark_rabbit', 'Installs all of Adam Snark Rabbit'
   supports os
 end
 
-%w{
-  apt
-  motd-tail
-  chef-solo-search
-  mongodb
-  git
-  rabbitmq
-  rbenv
-  application
-  application_nginx
-  postfix
-}.each do |cb|
-  depends cb
-end
-
+depends 'application'
+depends 'application_nginx'
+depends 'apt'
+depends 'chef-solo-search'
 depends 'ejabberd', '~> 0.1.1'
 depends 'freeswitch', '~> 0.2.0'
+depends 'git'
+depends 'mongodb'
+depends 'motd-tail'
+depends 'postfix'
+depends 'rabbitmq'
+depends 'rbenv'
 depends 'sudo', '~> 2.2'
