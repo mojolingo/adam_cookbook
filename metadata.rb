@@ -11,8 +11,8 @@ recipe            'adam_snark_rabbit', 'Installs all of Adam Snark Rabbit'
   supports os
 end
 
-depends 'application'
-depends 'application_nginx'
+depends 'application', '~> 4.0'
+depends 'application_nginx', '~> 2.0'
 depends 'apt'
 depends 'chef-solo-search'
 depends 'ejabberd', '~> 0.1.1'
@@ -20,6 +20,7 @@ depends 'freeswitch', '~> 0.2.0'
 depends 'git'
 depends 'mongodb'
 depends 'motd-tail'
+depends 'nginx', '~> 2.0'
 depends 'postfix'
 depends 'rabbitmq'
 depends 'rbenv'

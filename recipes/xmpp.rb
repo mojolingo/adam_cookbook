@@ -5,7 +5,7 @@ include_recipe "ejabberd"
 
 rewind "template[/etc/ejabberd/ejabberd.cfg]" do
   source "ejabberd.cfg.erb"
-  cookbook_name "adam"
+  cookbook_name "adam_snark_rabbit"
 end
 
 node.default['rbenv']['group_users'] << 'ejabberd'

@@ -14,4 +14,6 @@ platforms:
 suites:
 - name: default
   run_list: ['recipe[adam_snark_rabbit]']
-  attributes: {}
+  attributes:
+    adam:
+      deploy_key: <%= File.read('deploy_key').inspect %>
