@@ -22,9 +22,3 @@ suites:
       memory:
         application_servers:
         - ipaddress: '127.0.0.1'
-      brain:
-        install: false
-      ears:
-        install: false
-      fingers:
-        install: false
