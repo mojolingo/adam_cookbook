@@ -62,38 +62,38 @@ unless ruby_components.empty?
     %w{
       /etc/adam
       /var/log/adam
-      }.each do |dir|
-        directory dir do
-          owner "adam"
+    }.each do |dir|
+      directory dir do
+        owner "adam"
+      end
+    end
+
+    application "adam" do
+      path node['adam']['deployment_path']
+      owner "adam"
+      group "adam"
+
+      repository node['adam']['app_repo_url']
+      revision node['adam']['app_repo_ref']
+
+      deploy_key node['adam']['deploy_key']
+
+      symlinks links
+
+      nginx_load_balancer do
+        application_port 3000
+        if node['adam']['memory']['application_servers'].empty?
+          application_server_role 'app'
+        else
+          hosts node['adam']['memory']['application_servers']
         end
+        set_host_header true
+        template 'nginx_site.erb'
+        static_files "/assets" => "memory/public/assets",
+                     "/favicon.ico" => "memory/public/favicon.ico"
       end
 
-      application "adam" do
-        path node['adam']['deployment_path']
-        owner "adam"
-        group "adam"
-
-        repository node['adam']['app_repo_url']
-        revision node['adam']['app_repo_ref']
-
-        deploy_key node['adam']['deploy_key']
-
-        symlinks links
-
-        nginx_load_balancer do
-         application_port 3000
-         if node['adam']['memory']['application_servers'].empty?
-           application_server_role 'app'
-         else
-           hosts node['adam']['memory']['application_servers']
-         end
-         set_host_header true
-         template 'nginx_site.erb'
-         static_files "/assets" => "memory/public/assets",
-         "/favicon.ico" => "memory/public/favicon.ico"
-       end
-
-       before_deploy do
+      before_deploy do
         template '/etc/adam/environment' do
           source "environment.erb"
           owner "adam"
