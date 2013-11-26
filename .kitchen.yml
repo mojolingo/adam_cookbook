@@ -17,6 +17,3 @@ suites:
   attributes:
     adam:
       deploy_key: <%= File.read('deploy_key').inspect %>
-      memory:
-        application_servers:
-        - ipaddress: '127.0.0.1'
