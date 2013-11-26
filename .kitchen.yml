@@ -6,8 +6,8 @@ driver_config:
 platforms:
 - name: tdb-ubuntu
   driver_config:
-    box: tdb-ubuntu1204-v9
-    box_url: http://ci.mojolingo.com/job/Telephony-Dev-Box-Base-Boxen/9/artifact/tdb-ubuntu1204.box
+    box: tdb-ubuntu1204-v14
+    box_url: http://ci.mojolingo.com/job/Telephony-Dev-Box-Base-Boxen/14/artifact/tdb-ubuntu1204.box
     customize:
       memory: 1024
 
