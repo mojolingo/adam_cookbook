@@ -1,3 +1,5 @@
+include_recipe 'adam_snark_rabbit::base'
+
 include_recipe 'freeswitch::rayo'
 
 template "#{node['freeswitch']['confpath']}/autoload_configs/rayo.conf.xml" do

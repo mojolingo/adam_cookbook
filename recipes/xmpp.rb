@@ -1,3 +1,5 @@
+include_recipe 'adam_snark_rabbit::base'
+
 chef_gem "chef-rewind"
 require 'chef/rewind'
 
