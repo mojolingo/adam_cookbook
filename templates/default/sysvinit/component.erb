@@ -1,31 +1,69 @@
 ### BEGIN INIT INFO
 ## Provides:          <%= @component_name %>
-## Required-Start:    $remote_fs $syslog $network adam
-## Required-Stop:     $remote_fs $syslog $network adam
+## Required-Start:    $remote_fs $syslog $network
+## Required-Stop:     $remote_fs $syslog $network
 ## Default-Start:     2 3 4 5
 ## Default-Stop:      0 1 6
 ## Short-Description: Start this Adam component
 ## Description:       Component of Adam
 #### END INIT INFO
 
+. /lib/lsb/init-functions
+
 PATH=/opt/rbenv/shims:/opt/rbenv/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/bin
 export PATH
 
 ADAM_BASEDIR="<%= @base_directory %>"
 ADAM_ENV="/etc/adam/environment"
+PIDFILE="/var/run/adam_<%= @component_name %>.pid"
+
+start() {
+	su - adam <<HERE
+		source $ADAM_ENV
+		${ADAM_BASEDIR}/bin/<%= @component_name %> >> /var/log/adam/<%= @component_name %>.log 2>&1 &
+		echo $! > $PIDFILE
+HERE
+}
+
+stop() {
+	if [ -n "`cat $PIDFILE`" ]; then
+		kill `cat $PIDFILE`
+		wait `cat $PIDFILE`
+		rm -f $PIDFILE
+	fi
+}
 
 case "$1" in
 start)
-	source $ADAM_ENV
-	${ADAM_BASEDIR}
+	log_daemon_msg "Starting Adam Component <%= @component_name %>" "<%= @component_name %>" || true
+	if start; then
+		log_end_msg 0 || true
+	else
+		log_end_msg 1 || true
+	fi
 	;;
 stop)
-	;;
+	log_daemon_msg "Stopping Adam Component <%= @component_name %>" "<%= @component_name %>" || true
+	if stop; then
+		log_end_msg 0 || true
+	else
+		log_end_msg 1 || true
+	fi
+;;
 restart)
+	log_daemon_msg "Restarting Adam Component <%= @component_name %>" "<%= @component_name %>" || true
+	if stop && start
+		log_end_msg 0 || true
+	else
+		log_end_msg 1 || true
+	fi
 	;;
 force-reload)
+	log_action_msg "force-reload not supported"
+	exit 1
 	;;
 status)
+	status_of_proc -p $PIDFILE adam_<%= component_name %> adam_<%= component_name %> && exit 0 || exit $?
 	;;
 esac
 
