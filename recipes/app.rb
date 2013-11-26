@@ -112,7 +112,7 @@ unless ruby_components.empty?
             source "upstart/component.conf.erb"
             mode 0744
             variables :component_name => component,
-            :base_directory => File.join(node['adam']['deployment_path'], 'current')
+                      :base_directory => File.join(node['adam']['deployment_path'], 'current')
           end
         end
 
