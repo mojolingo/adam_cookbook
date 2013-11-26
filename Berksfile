@@ -2,4 +2,4 @@ site :opscode
 
 metadata
 
-cookbook "application_nginx", path: "https://github.com/polysics/application_nginx.git", branch: "chef-solo"
+cookbook "application_nginx", git: "https://github.com/polysics/application_nginx.git", branch: "chef-solo"
