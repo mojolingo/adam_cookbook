@@ -37,4 +37,12 @@ describe 'Adam Snark Rabbit' do
   describe service('adam-ears') do
     it { should be_running }
   end
+
+  describe port(5222) do
+    it { should be_listening.with('tcp') }
+  end
+
+  describe port(5224) do
+    it { should be_listening.with('tcp') }
+  end
 end
