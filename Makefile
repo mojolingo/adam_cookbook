@@ -4,6 +4,7 @@ bundle:
 	bundle update
 
 update_cookbooks:
+	berks install
 	berks update
 
 foodcritic:
