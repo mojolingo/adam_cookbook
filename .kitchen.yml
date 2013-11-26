@@ -10,8 +10,6 @@ platforms:
     box_url: http://ci.mojolingo.com/job/Telephony-Dev-Box-Base-Boxen/9/artifact/tdb-ubuntu1204.box
     customize:
       memory: 1024
-      natdnshostresolver1: "on"
-      natdnsproxy1: "on"
 
 suites:
 - name: default
