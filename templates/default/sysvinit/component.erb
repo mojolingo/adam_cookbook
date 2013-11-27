@@ -63,7 +63,7 @@ force-reload)
 	exit 1
 	;;
 status)
-	status_of_proc -p $PIDFILE adam_<%= component_name %> adam_<%= component_name %> && exit 0 || exit $?
+	status_of_proc -p $PIDFILE adam_<%= @component_name %> adam_<%= @component_name %> && exit 0 || exit $?
 	;;
 esac
 
