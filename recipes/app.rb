@@ -104,7 +104,7 @@ unless ruby_components.empty?
 
         ruby_components.each do |component|
           template "/etc/init.d/adam-#{component}" do
-            source "sysvinit/component.conf.erb"
+            source "sysvinit/component.erb"
             mode 0744
             variables :component_name => component,
             :base_directory => File.join(node['adam']['deployment_path'], 'current')
