@@ -4,7 +4,7 @@ This Chef cookbook installs Mojo Lingo's Adam Snark Rabbit intelligent assistant
 
 # Requirements
 
-Tested on Ubuntu 12.04.
+Tested on Ubuntu 12.04 and Debian 7.
 
 # Usage
 
