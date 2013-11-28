@@ -54,7 +54,7 @@ stop)
 ;;
 restart)
 	log_daemon_msg "Restarting Adam Component <%= @component_name %>" "<%= @component_name %>" || true
-	if stop && start
+	if stop && start; then
 		log_end_msg 0 || true
 	else
 		log_end_msg 1 || true
