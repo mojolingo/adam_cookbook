@@ -28,7 +28,7 @@ HERE
 }
 
 stop() {
-	if [ -n "`cat $PIDFILE`" ]; then
+	if [ -e $PIDFILE ]; then
 		kill `cat $PIDFILE`
 		wait `cat $PIDFILE`
 		rm -f $PIDFILE
