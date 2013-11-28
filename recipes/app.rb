@@ -64,6 +64,7 @@ unless ruby_components.empty?
     %w{
       /etc/adam
       /var/log/adam
+      /var/run/adam
     }.each do |dir|
       directory dir do
         owner "adam"

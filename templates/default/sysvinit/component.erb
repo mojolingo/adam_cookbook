@@ -17,7 +17,7 @@ export PATH
 
 ADAM_BASEDIR="<%= @base_directory %>"
 ADAM_ENV="/etc/adam/environment"
-PIDFILE="/var/run/adam_<%= @component_name %>.pid"
+PIDFILE="/var/run/adam/<%= @component_name %>.pid"
 
 start() {
 	su - adam <<HERE
