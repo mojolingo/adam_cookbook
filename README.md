@@ -100,154 +100,161 @@ Alternatively select appropriate recipes for individual components for distribut
     <tr>
       <td>adam/standalone_deployment</td>
       <td>
-
+        Wether to deploy Adam's application components in a production manner (true), or to inherit from a shared directory (false) for the use of active development of Adam's application components.
       </td>
       <td>true</td>
     </tr>
     <tr>
       <td>adam/deployment_path</td>
       <td>
-
+        The path at which to deploy Adam's application components.
       </td>
       <td>"/srv/adam"</td>
     </tr>
     <tr>
       <td>adam/app_repo_url</td>
       <td>
-
+        The URL of the repo from which to clone Adam's source code.
       </td>
       <td>"git@github.com:mojolingo/Adam.Snark.Rabbit.git"</td>
     </tr>
     <tr>
       <td>adam/app_repo_ref</td>
       <td>
-
+        The repository reference (git branch, tag or commit ID) to checkout for deployment. The default of "master" provides the latest changes to Adam. Adam does not currently get versioned releases (for purposes of continuous deployment).
       </td>
       <td>"master"</td>
     </tr>
     <tr>
+      <td>adam/deploy_key</td>
+      <td>
+        The private SSH key with which to clone the Adam Snark Rabbit source repository for deployment. Must be specified with newlines intact.
+      </td>
+      <td>nil</td>
+    </tr>
+    <tr>
       <td>adam/root_domain</td>
       <td>
-
+        The root domain of the Adam deployment. This is particularly for XMPP JIDs.
       </td>
       <td>`node['fqdn']`</td>
     </tr>
     <tr>
       <td>adam/memory_base_url</td>
       <td>
-
+        The base address at which to access Adam's Memory component. This is used for XMPP authentication and authenticating messages received from senses by the Brain.
       </td>
       <td>'http://localhost'</td>
     </tr>
     <tr>
       <td>adam/amqp_host</td>
       <td>
-
+        The hostname/IP at which to access the AMQP server (Adam's nervous system).
       </td>
       <td>'localhost'</td>
     </tr>
     <tr>
       <td>adam/rayo_domain</td>
       <td>
-
+        The domain at which to access Adam's Rayo service for telephony connectivity.
       </td>
       <td>`node['adam']['root_domain']`</td>
     </tr>
     <tr>
       <td>adam/reporter/url</td>
       <td>
-
+        The exception reporter URL to use.
       </td>
       <td>"http://errors.mojolingo.com"</td>
     </tr>
     <tr>
       <td>adam/reporter/api_key</td>
       <td>
-
+        The exception reporter API key.
       </td>
       <td>""</td>
     </tr>
     <tr>
       <td>adam/wit_api_key</td>
       <td>
-
+        The API key for Wit (semantic interpretation of messages) connectivity.
       </td>
       <td>""</td>
     </tr>
     <tr>
       <td>adam/brain/install</td>
       <td>
-
+        Wether or not to install the Brain on this node.
       </td>
       <td>true</td>
     </tr>
     <tr>
       <td>adam/ears/install</td>
       <td>
-
+        Wether or not to install Ears on this node.
       </td>
       <td>true</td>
     </tr>
     <tr>
       <td>adam/ears/punchblock_port</td>
       <td>
-
+        The port on which Ears should attempt to connect to the Rayo service. This default is modified by the default recipe (to port 5224) to avoid collisions between Rayo and the XMPP server.
       </td>
       <td>5222</td>
     </tr>
     <tr>
       <td>adam/fingers/install</td>
       <td>
-
+        Wether or not to install Fingers on this node.
       </td>
       <td>true</td>
     </tr>
     <tr>
       <td>adam/memory/install</td>
       <td>
-
+        Wether or not to install Memory on this node.
       </td>
       <td>true</td>
     </tr>
     <tr>
       <td>adam/memory/internal_username</td>
       <td>
-
+        The internal username with which to authenticate Adam's components against Memory.
       </td>
       <td>'internal'</td>
     </tr>
     <tr>
       <td>adam/memory/internal_password</td>
       <td>
-
+        The internal password with which to authenticate Adam's components against Memory.
       </td>
       <td>'abc123'</td>
     </tr>
     <tr>
       <td>adam/memory/mongoid_host</td>
       <td>
-
+        The host on which MongoDB is running for data storage.
       </td>
       <td>'127.0.0.1'</td>
     </tr>
     <tr>
       <td>adam/memory/bosh_host</td>
       <td>
-
+        The host to which BOSH (XMPP) requests should be forwarded from the reverse proxy. This should be the host on which the XMPP server is running.
       </td>
       <td>'localhost'</td>
     </tr>
     <tr>
       <td>adam/memory/application_servers</td>
       <td>
-
+        The set of servers running the Memory application server. Since the reverse proxy and application server are always colocated on the same machine, you should never need to change this.
       </td>
       <td>`['127.0.0.1']`</td>
     </tr>
     <tr>
       <td>adam/rayo/listeners</td>
       <td>
-
+        The Rayo listeners to use. The default is setup to listen for c2s connections on port 5222 on both the external IP of the Rayo server as well as loopback (for convenience of debugging and colocation). This default is modified by the default recipe (to port 5224) to avoid collisions between Rayo and the XMPP server.
       </td>
       <td>
         ```
