@@ -111,8 +111,17 @@ unless ruby_components.empty?
           end
         end
 
-        service 'adam' do
-          action :enable
+        sudo 'adam' do
+          user      'adam'
+          runas     'ALL'
+          commands  ruby_components.map { |component| "/usr/sbin/service adam-#{component} restart" }
+          nopasswd  true
+        end
+
+        ruby_components.each do |component|
+          service "adam-#{component}" do
+            action :enable
+          end
         end
       end
 
@@ -125,7 +134,7 @@ unless ruby_components.empty?
         end
       end
 
-      restart_command "sudo service adam restart"
+      restart_command ruby_components.map { |component| "sudo service adam-#{component} restart" }.join(' && ')
     end
   else
     ruby_components.each do |component|
