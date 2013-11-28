@@ -14,15 +14,70 @@ Alternatively select appropriate recipes for individual components for distribut
 
 # Recipes
 
-* `adam_snark_rabbit`               - Deploys all default components of Adam to the same box
-* `adam_snark_rabbit::base`         - Sets up base system requirements for deployment of Adam Snark Rabbit components
-* `adam_snark_rabbit::app`          - Deploys the selected application components of Adam Snark Rabbit
-* `adam_snark_rabbit::mongo`        - Installs MongoDB for use by Adams Memory
-* `adam_snark_rabbit::rabbitmq`     - Install RabbitMQ, Adams nervous system
-* `adam_snark_rabbit::rayo`         - Installs a Rayo server for use by Adam to provide the Ears service
-* `adam_snark_rabbit::remove_dash`  - Removes Dash as the default shell from Ubuntu due to incompatability with POSIX sh
-* `adam_snark_rabbit::user`         - Sets up the Adam user
-* `adam_snark_rabbit::xmpp`         - Installs an XMPP server for use by Adam components including Fingers
+<table>
+  <thead>
+    <tr>
+      <th>Recipe</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>adam_snark_rabbit</td>
+      <td>
+        Deploys all default components of Adam to the same box
+      </td>
+    </tr>
+    <tr>
+      <td>adam_snark_rabbit::base</td>
+      <td>
+        Sets up base system requirements for deployment of Adam Snark Rabbit components
+      </td>
+    </tr>
+    <tr>
+      <td>adam_snark_rabbit::app</td>
+      <td>
+        Deploys the selected application components of Adam Snark Rabbit
+      </td>
+    </tr>
+    <tr>
+      <td>adam_snark_rabbit::mongo</td>
+      <td>
+        Installs MongoDB for use by Adams Memory
+      </td>
+    </tr>
+    <tr>
+      <td>adam_snark_rabbit::rabbitmq</td>
+      <td>
+        Install RabbitMQ, Adams nervous system
+      </td>
+    </tr>
+    <tr>
+      <td>adam_snark_rabbit::rayo</td>
+      <td>
+        Installs a Rayo server for use by Adam to provide the Ears service
+      </td>
+    </tr>
+    <tr>
+      <td>adam_snark_rabbit::remove_dash</td>
+      <td>
+        Removes Dash as the default shell from Ubuntu due to incompatability with POSIX sh
+      </td>
+    </tr>
+    <tr>
+      <td>adam_snark_rabbit::user</td>
+      <td>
+        Sets up the Adam user
+      </td>
+    </tr>
+    <tr>
+      <td>adam_snark_rabbit::xmpp</td>
+      <td>
+        Installs an XMPP server for use by Adam components including Fingers
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 # Attributes
 
