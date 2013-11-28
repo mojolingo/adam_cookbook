@@ -64,6 +64,7 @@ unless ruby_components.empty?
     %w{
       /etc/adam
       /var/log/adam
+      /var/run/adam
     }.each do |dir|
       directory dir do
         owner "adam"
@@ -102,23 +103,26 @@ unless ruby_components.empty?
           group "adam"
         end
 
-        template "/etc/init/adam.conf" do
-          source "upstart/adam.conf.erb"
-          mode 0744
-        end
-
         ruby_components.each do |component|
-          template "/etc/init/adam-#{component}.conf" do
-            source "upstart/component.conf.erb"
-            mode 0744
+          template "/etc/init.d/adam-#{component}" do
+            source "sysvinit/component.erb"
+            mode 0755
             variables :component_name => component,
                       :base_directory => File.join(node['adam']['deployment_path'], 'current')
           end
         end
 
-        service 'adam' do
-          action :enable
-          provider Chef::Provider::Service::Upstart
+        sudo 'adam' do
+          user      'adam'
+          runas     'ALL'
+          commands  ruby_components.map { |component| "/usr/sbin/service adam-#{component} restart" }
+          nopasswd  true
+        end
+
+        ruby_components.each do |component|
+          service "adam-#{component}" do
+            action :enable
+          end
         end
       end
 
@@ -131,7 +135,7 @@ unless ruby_components.empty?
         end
       end
 
-      restart_command "sudo service adam restart"
+      restart_command ruby_components.map { |component| "sudo service adam-#{component} restart" }.join(' && ')
     end
   else
     ruby_components.each do |component|

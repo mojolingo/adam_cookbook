@@ -10,7 +10,7 @@ platforms:
     box_url: http://ci.mojolingo.com/job/Telephony-Dev-Box-Base-Boxen/14/artifact/tdb-ubuntu1204.box
     customize:
       memory: 1024
-- name: debian-7.1
+- name: opscode-debian-7.1
   driver_config:
     box: debian
     box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_debian-7.1.0_provisionerless.box
