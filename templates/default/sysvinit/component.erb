@@ -22,6 +22,7 @@ PIDFILE="/var/run/adam/<%= @component_name %>.pid"
 start() {
 	su - adam <<HERE
 		source $ADAM_ENV
+		cd ${ADAM_BASEDIR}
 		${ADAM_BASEDIR}/bin/<%= @component_name %> >> /var/log/adam/<%= @component_name %>.log 2>&1 &
 		echo $! > $PIDFILE
 HERE
