@@ -151,6 +151,38 @@ unless ruby_components.empty?
       cwd File.join(node['adam']['deployment_path'], 'current')
     end
 
+    include_recipe 'nginx'
+
+    app_path = node['adam']['deployment_path']
+
+    static_files = {
+      "/assets" => "memory/public/assets",
+      "/favicon.ico" => "memory/public/favicon.ico"
+     }.inject({}) do |files, (url, path)|
+      files[url] = ::File.expand_path(path, ::File.join(app_path, "current"))
+      files
+    end
+
+    application = Struct.new(:name).new('adam')
+    resource = Struct.new(:application, :path, :application_port, :static_files, :set_host_header, :port, :server_name, :server_name, :ssl).new(application, app_path, 3000, static_files, true, 80, node['fqdn'], false)
+
+    template "#{node['nginx']['dir']}/sites-available/adam.conf" do
+      source 'nginx_site.erb'
+      owner "root"
+      group "root"
+      mode "644"
+      variables resource: resource,
+                hosts: ['127.0.0.1'],
+                application_socket: []
+      notifies :reload, resources(:service => 'nginx')
+    end
+
+    nginx_site "adam.conf"
+
+    nginx_site "default" do
+      enable false
+    end
+
     service 'adam' do
       action :enable
       provider Chef::Provider::Service::Upstart
