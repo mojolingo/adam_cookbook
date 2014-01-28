@@ -21,10 +21,12 @@ rbenv_ruby ruby do
 end
 
 rbenv_gem 'faraday' do
+  version '0.8.9'
   ruby_version ruby
 end
 
 rbenv_gem 'faraday_middleware' do
+  version '0.9.0'
   ruby_version ruby
 end
 
