@@ -10,3 +10,12 @@ template "#{node['freeswitch']['confpath']}/autoload_configs/rayo.conf.xml" do
   variables listeners: node['adam']['rayo']['listeners']
   notifies :restart, "service[#{node['freeswitch']['service']}]"
 end
+
+group 'adam' do
+  members node['freeswitch']['user']
+  append true
+end
+
+directory '/var/lib/freeswitch/recordings' do
+  group 'adam'
+end
