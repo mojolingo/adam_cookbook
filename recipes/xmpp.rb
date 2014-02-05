@@ -20,16 +20,6 @@ rbenv_ruby ruby do
   global true
 end
 
-rbenv_gem 'faraday' do
-  version '0.8.9'
-  ruby_version ruby
-end
-
-rbenv_gem 'faraday_middleware' do
-  version '0.9.0'
-  ruby_version ruby
-end
-
 template '/etc/ejabberd/ext_auth' do
   source 'ejabberd_auth.erb'
   user 'ejabberd'
