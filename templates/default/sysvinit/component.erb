@@ -15,30 +15,33 @@
 PATH=/opt/rbenv/shims:/opt/rbenv/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/bin
 export PATH
 
+DESC="Adam <%= @component_name %> component"
+NAME=adam-<%= @component_name %>
 ADAM_BASEDIR="<%= @base_directory %>"
+DAEMON=${ADAM_BASEDIR}/bin/<%= @component_name %>
+DAEMON_ARGS=""
+LOG_FILE=/var/log/adam/<%= @component_name %>.log
 ADAM_ENV="/etc/adam/environment"
 PIDFILE="/var/run/adam/<%= @component_name %>.pid"
+USER=adam
 
 start() {
-	su - adam <<HERE
-		source $ADAM_ENV
-		cd ${ADAM_BASEDIR}
-		${ADAM_BASEDIR}/bin/<%= @component_name %> >> /var/log/adam/<%= @component_name %>.log 2>&1 &
-		echo $! > $PIDFILE
-HERE
+	source $ADAM_ENV
+	start-stop-daemon --start --quiet --background --make-pidfile \
+		--pidfile $PIDFILE --exec /bin/bash --name $NAME --user $USER \
+		--chdir $ADAM_BASEDIR -- -c "exec $DAEMON $DAEMON_ARGS >> $LOG_FILE 2>&1" \
+		|| return 2
 }
 
 stop() {
-	if [ -e $PIDFILE ]; then
-		kill `cat $PIDFILE`
-		wait `cat $PIDFILE`
-		rm -f $PIDFILE
-	fi
+	start-stop-daemon --stop --quiet \
+		--pidfile $PIDFILE \
+		--retry=TERM/30/KILL/5
 }
 
 case "$1" in
 start)
-	log_daemon_msg "Starting Adam Component <%= @component_name %>" "<%= @component_name %>" || true
+	log_daemon_msg "Starting Adam Component <%= @component_name %>" || true
 	if start; then
 		log_end_msg 0 || true
 	else
@@ -46,7 +49,7 @@ start)
 	fi
 	;;
 stop)
-	log_daemon_msg "Stopping Adam Component <%= @component_name %>" "<%= @component_name %>" || true
+	log_daemon_msg "Stopping Adam Component <%= @component_name %>" || true
 	if stop; then
 		log_end_msg 0 || true
 	else
@@ -54,7 +57,7 @@ stop)
 	fi
 ;;
 restart)
-	log_daemon_msg "Restarting Adam Component <%= @component_name %>" "<%= @component_name %>" || true
+	log_daemon_msg "Restarting Adam Component <%= @component_name %>" || true
 	if stop && start; then
 		log_end_msg 0 || true
 	else
@@ -66,7 +69,7 @@ force-reload)
 	exit 1
 	;;
 status)
-	status_of_proc -p $PIDFILE adam_<%= @component_name %> adam_<%= @component_name %> && exit 0 || exit $?
+	status_of_proc -p $PIDFILE "$DAEMON" "$NAME" && exit 0 || exit $?
 	;;
 esac
 
