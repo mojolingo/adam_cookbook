@@ -98,6 +98,7 @@ unless ruby_components.empty?
 
       before_deploy do
         template '/etc/adam/environment' do
+          cookbook 'adam_snark_rabbit'
           source "environment.erb"
           owner "adam"
           group "adam"
@@ -105,6 +106,7 @@ unless ruby_components.empty?
 
         ruby_components.each do |component|
           template "/etc/init.d/adam-#{component}" do
+            cookbook 'adam_snark_rabbit'
             source "sysvinit/component.erb"
             mode 0755
             variables :component_name => component,
