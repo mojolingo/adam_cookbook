@@ -169,6 +169,7 @@ unless ruby_components.empty?
     resource = Struct.new(:application, :path, :application_port, :static_files, :set_host_header, :port, :server_name, :server_name, :ssl).new(application, app_path, 3000, static_files, true, 80, node['fqdn'], false)
 
     template "#{node['nginx']['dir']}/sites-available/adam.conf" do
+      cookbook 'adam_snark_rabbit'
       source 'nginx_site.erb'
       owner "root"
       group "root"
