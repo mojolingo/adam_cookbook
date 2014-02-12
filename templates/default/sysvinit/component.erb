@@ -34,9 +34,14 @@ start() {
 }
 
 stop() {
-	start-stop-daemon --stop --quiet \
+	start-stop-daemon --stop --quiet --oknodo \
 		--pidfile $PIDFILE \
 		--retry=TERM/30/KILL/5
+
+	if [ -f $PIDFILE ]
+	then
+	  test x$? = x0 && rm $PIDFILE
+	fi
 }
 
 case "$1" in
