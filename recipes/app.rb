@@ -91,6 +91,7 @@ unless ruby_components.empty?
           hosts node['adam']['memory']['application_servers']
         end
         set_host_header true
+        cookbook_name 'adam_snark_rabbit'
         template 'nginx_site.erb'
         static_files "/assets" => "memory/public/assets",
                      "/favicon.ico" => "memory/public/favicon.ico"
