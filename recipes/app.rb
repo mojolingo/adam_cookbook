@@ -11,7 +11,8 @@ include_recipe "chef-solo-search"
 
 include_recipe "git"
 include_recipe "postfix"
-include_recipe 'brightbox-ruby'
+
+include_recipe "adam_snark_rabbit::ruby"
 
 ruby_components = []
 

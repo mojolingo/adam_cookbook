@@ -10,7 +10,7 @@ rewind "template[/etc/ejabberd/ejabberd.cfg]" do
   cookbook_name "adam_snark_rabbit"
 end
 
-include_recipe 'brightbox-ruby'
+include_recipe "adam_snark_rabbit::ruby"
 
 template '/etc/ejabberd/ext_auth' do
   source 'ejabberd_auth.erb'
