@@ -10,15 +10,7 @@ rewind "template[/etc/ejabberd/ejabberd.cfg]" do
   cookbook_name "adam_snark_rabbit"
 end
 
-node.default['rbenv']['group_users'] << 'ejabberd'
-
-include_recipe 'rbenv'
-include_recipe 'rbenv::ruby_build'
-
-ruby = '2.0.0-p353'
-rbenv_ruby ruby do
-  global true
-end
+include_recipe 'brightbox-ruby'
 
 template '/etc/ejabberd/ext_auth' do
   source 'ejabberd_auth.erb'

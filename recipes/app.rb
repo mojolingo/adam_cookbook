@@ -5,14 +5,13 @@ include_recipe "chef-solo-search"
 %w{
   libpcre3
   libpcre3-dev
-  }.each { |p| package p }
-
-node.default['rbenv']['group_users'] << 'adam'
+  libxml2
+  libxslt1-dev
+}.each { |p| package p }
 
 include_recipe "git"
 include_recipe "postfix"
-include_recipe 'rbenv'
-include_recipe 'rbenv::ruby_build'
+include_recipe 'brightbox-ruby'
 
 ruby_components = []
 
@@ -33,19 +32,7 @@ if node['adam']['brain']['install']
 end
 
 unless ruby_components.empty?
-  ruby = '2.0.0-p353'
-
-  rbenv_ruby ruby do
-    global true
-  end
-
-  rbenv_gem 'bundler' do
-    ruby_version ruby
-  end
-
-  rbenv_gem 'foreman' do
-    ruby_version ruby
-  end
+  gem_package 'foreman'
 
   if node['adam']['standalone_deployment']
     links = {}
@@ -131,7 +118,7 @@ unless ruby_components.empty?
 
       before_restart do
         ruby_components.each do |component|
-          rbenv_execute "app_#{component}_dependencies" do
+          execute "app_#{component}_dependencies" do
             command "bundle install --deployment --path vendor/ruby"
             cwd File.join(node['adam']['deployment_path'], 'current', component)
           end
@@ -142,14 +129,14 @@ unless ruby_components.empty?
     end
   else
     ruby_components.each do |component|
-      rbenv_execute "app_#{component}_dependencies" do
+      execute "app_#{component}_dependencies" do
         command "bundle install --path vendor/ruby"
         cwd File.join(node['adam']['deployment_path'], 'current', component)
         environment 'NOKOGIRI_USE_SYSTEM_LIBRARIES' => 'true'
       end
     end
 
-    rbenv_execute "setup app services" do
+    execute "setup app services" do
       command "foreman export upstart /etc/init -a adam"
       cwd File.join(node['adam']['deployment_path'], 'current')
     end
