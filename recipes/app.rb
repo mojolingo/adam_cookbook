@@ -178,7 +178,7 @@ unless ruby_components.empty?
       variables resource: resource,
                 hosts: ['127.0.0.1'],
                 application_socket: []
-      notifies :reload, resources(:service => 'nginx')
+      notifies :reload, resources('service[nginx]')
     end
 
     nginx_site "adam.conf"
