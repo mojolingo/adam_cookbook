@@ -8,7 +8,9 @@ else
   ruby_bin_path = "/usr/local/ruby/#{ruby_version}/bin"
   ruby_build_ruby ruby_version
 
-  file "/etc/gemrc" do
+  directory "/usr/local/ruby/2.1.0/etc"
+
+  file "/usr/local/ruby/2.1.0/etc/gemrc" do
     content <<-GEMRC
 ---
 :backtrace: false
