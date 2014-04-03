@@ -1,7 +1,5 @@
 include_recipe 'adam_snark_rabbit::base'
 
-include_recipe "chef-solo-search"
-
 %w{
   libpcre3
   libpcre3-dev
