@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'berkshelf', '~> 2.0'
+gem 'berkshelf', '~> 3.1'
 
 gem 'foodcritic', '~> 3.0'
 gem 'thor-foodcritic', '~> 1.1'
