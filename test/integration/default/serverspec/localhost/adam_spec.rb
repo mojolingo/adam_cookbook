@@ -6,19 +6,11 @@ describe 'Adam Snark Rabbit' do
     it { should belong_to_group 'adam' }
   end
 
-  describe service('rabbitmq') do
-    it { should be_running }
-  end
-
   describe service('ejabberd') do
     it { should be_running }
   end
 
   describe service('mongodb') do
-    it { should be_running }
-  end
-
-  describe service('freeswitch') do
     it { should be_running }
   end
 
@@ -31,10 +23,6 @@ describe 'Adam Snark Rabbit' do
   end
 
   describe port(5222) do
-    it { should be_listening.with('tcp') }
-  end
-
-  describe port(5224) do
     it { should be_listening.with('tcp') }
   end
 end
