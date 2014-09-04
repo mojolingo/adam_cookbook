@@ -8,7 +8,6 @@ default['adam']['deploy_key']             = nil
 default['adam']['root_domain']      = node['fqdn']
 default['adam']['memory_base_url']  = 'http://localhost'
 default['adam']['amqp_host']        = 'localhost'
-default['adam']['rayo_domain']      = node['adam']['root_domain']
 
 default['adam']['reporter']['url']      = "http://errors.mojolingo.com"
 default['adam']['reporter']['api_key']  = ""
@@ -26,9 +25,6 @@ override['rabbitmq']['enabled_users'] = [
     [{:vhost => nil , :conf => ".*", :write => ".*", :read => ".*"}]
   },
   { :name => "fingers", :password => "password", :rights =>
-    [{:vhost => nil , :conf => ".*", :write => ".*", :read => ".*"}]
-  },
-  { :name => "ears", :password => "password", :rights =>
     [{:vhost => nil , :conf => ".*", :write => ".*", :read => ".*"}]
   },
   { :name => "brain", :password => "password", :rights =>

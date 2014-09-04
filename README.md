@@ -53,12 +53,6 @@ Alternatively select appropriate recipes for individual components for distribut
       </td>
     </tr>
     <tr>
-      <td>adam_snark_rabbit::rayo</td>
-      <td>
-        Installs a Rayo server for use by Adam to provide the Ears service
-      </td>
-    </tr>
-    <tr>
       <td>adam_snark_rabbit::remove_dash</td>
       <td>
         Removes Dash as the default shell from Ubuntu due to incompatability with POSIX sh
@@ -154,13 +148,6 @@ Alternatively select appropriate recipes for individual components for distribut
       <td>'localhost'</td>
     </tr>
     <tr>
-      <td>adam/rayo_domain</td>
-      <td>
-        The domain at which to access Adam's Rayo service for telephony connectivity.
-      </td>
-      <td>`node['adam']['root_domain']`</td>
-    </tr>
-    <tr>
       <td>adam/reporter/url</td>
       <td>
         The exception reporter URL to use.
@@ -187,20 +174,6 @@ Alternatively select appropriate recipes for individual components for distribut
         Wether or not to install the Brain on this node.
       </td>
       <td>true</td>
-    </tr>
-    <tr>
-      <td>adam/ears/install</td>
-      <td>
-        Wether or not to install Ears on this node.
-      </td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>adam/ears/punchblock_port</td>
-      <td>
-        The port on which Ears should attempt to connect to the Rayo service. This default is modified by the default recipe (to port 5224) to avoid collisions between Rayo and the XMPP server.
-      </td>
-      <td>5222</td>
     </tr>
     <tr>
       <td>adam/fingers/install</td>
@@ -250,30 +223,6 @@ Alternatively select appropriate recipes for individual components for distribut
         The set of servers running the Memory application server. Since the reverse proxy and application server are always colocated on the same machine, you should never need to change this.
       </td>
       <td>`['127.0.0.1']`</td>
-    </tr>
-    <tr>
-      <td>adam/rayo/listeners</td>
-      <td>
-        The Rayo listeners to use. The default is setup to listen for c2s connections on port 5222 on both the external IP of the Rayo server as well as loopback (for convenience of debugging and colocation). This default is modified by the default recipe (to port 5224) to avoid collisions between Rayo and the XMPP server.
-      </td>
-      <td>
-        ```
-        [
-          {
-            'type' => "c2s",
-            'port' => "5222",
-            'address' => "$${rayo_ip}",
-            'acl' => ""
-          },
-          {
-            'type' => "c2s",
-            'port' => "5222",
-            'address' => "127.0.0.1",
-            'acl' => ""
-          }
-        ]
-        ```
-      </td>
     </tr>
   </tbody>
 </table>

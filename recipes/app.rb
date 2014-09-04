@@ -18,10 +18,6 @@ if node['adam']['memory']['install']
   ruby_components << 'memory'
 end
 
-if node['adam']['ears']['install']
-  ruby_components << 'ears'
-end
-
 if node['adam']['fingers']['install']
   ruby_components << 'fingers'
 end
