@@ -9,9 +9,6 @@ export GITHUB_SECRET=<%= node['adam']['github_secret'] %>
 export TWITTER_KEY=<%= node['adam']['twitter_key'] %>
 export TWITTER_SECRET=<%= node['adam']['twitter_secret'] %>
 
-export ADAM_MEMORY_AMQP_HOST=<%= node['adam']['amqp_host'] %>
-export ADAM_MEMORY_AMQP_USERNAME=memory
-export ADAM_MEMORY_AMQP_PASSWORD=password
 export MONGOID_HOST=<%= node['adam']['memory']['mongoid_host'] %>
 export ADAM_MEMORY_URL=<%= node['adam']['memory_base_url'] %>
 export ADAM_MEMORY_INTERNAL_USERNAME=<%= node['adam']['memory']['internal_username'] %>
@@ -20,15 +17,6 @@ export ADAM_MEMORY_INTERNAL_PASSWORD=<%= node['adam']['memory']['internal_passwo
 export ADAM_FINGERS_JID=adam@<%= node['adam']['root_domain'] %>
 export ADAM_FINGERS_PASSWORD=abc123
 export ADAM_FINGERS_DEBUG=true
-export ADAM_FINGERS_AMQP_HOST=<%= node['adam']['amqp_host'] %>
-export ADAM_FINGERS_AMQP_USERNAME=fingers
-export ADAM_FINGERS_AMQP_PASSWORD=password
-export ADAM_FINGERS_REPORTER_API_KEY=<%= node['adam']['reporter']['api_key'] %>
-export ADAM_FINGERS_REPORTER_URL=<%= node['adam']['reporter']['url'] %>
-
-export ADAM_BRAIN_AMQP_HOST=<%= node['adam']['amqp_host'] %>
-export ADAM_BRAIN_AMQP_USERNAME=brain
-export ADAM_BRAIN_AMQP_PASSWORD=password
 export ADAM_BRAIN_REPORTER_API_KEY=<%= node['adam']['reporter']['api_key'] %>
 export ADAM_BRAIN_REPORTER_URL=<%= node['adam']['reporter']['url'] %>
 

@@ -47,12 +47,6 @@ Alternatively select appropriate recipes for individual components for distribut
       </td>
     </tr>
     <tr>
-      <td>adam_snark_rabbit::rabbitmq</td>
-      <td>
-        Install RabbitMQ, Adams nervous system
-      </td>
-    </tr>
-    <tr>
       <td>adam_snark_rabbit::remove_dash</td>
       <td>
         Removes Dash as the default shell from Ubuntu due to incompatability with POSIX sh
@@ -141,13 +135,6 @@ Alternatively select appropriate recipes for individual components for distribut
       <td>'http://localhost'</td>
     </tr>
     <tr>
-      <td>adam/amqp_host</td>
-      <td>
-        The hostname/IP at which to access the AMQP server (Adam's nervous system).
-      </td>
-      <td>'localhost'</td>
-    </tr>
-    <tr>
       <td>adam/reporter/url</td>
       <td>
         The exception reporter URL to use.
@@ -172,13 +159,6 @@ Alternatively select appropriate recipes for individual components for distribut
       <td>adam/brain/install</td>
       <td>
         Wether or not to install the Brain on this node.
-      </td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>adam/fingers/install</td>
-      <td>
-        Wether or not to install Fingers on this node.
       </td>
       <td>true</td>
     </tr>
