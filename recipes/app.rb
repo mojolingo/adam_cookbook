@@ -91,10 +91,15 @@ unless ruby_components.empty?
           group "adam"
         end
 
+        template "/etc/init/adam.conf" do
+          source "upstart/adam.conf.erb"
+          mode 0744
+        end
+
         ruby_components.each do |component|
-          template "/etc/init.d/adam-#{component}" do
+          template "/etc/init/adam-#{component}.conf" do
             cookbook 'adam_snark_rabbit'
-            source "sysvinit/component.erb"
+            source "upstart/component.conf.erb"
             mode 0755
             variables :component_name => component,
                       :base_directory => File.join(node['adam']['deployment_path'], 'current')
@@ -111,6 +116,7 @@ unless ruby_components.empty?
         ruby_components.each do |component|
           service "adam-#{component}" do
             action :enable
+            provider Chef::Provider::Service::Upstart
           end
         end
       end

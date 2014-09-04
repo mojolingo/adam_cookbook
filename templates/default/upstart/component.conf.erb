@@ -1,0 +1,13 @@
+description "Adam's <%= @component_name %>"
+
+start on starting adam
+stop on stopping adam
+respawn
+
+setuid adam
+chdir <%= @base_directory %>
+
+script
+  . /etc/adam/environment
+  exec <%= @base_directory %>/bin/<%= @component_name %> >> /var/log/adam/<%= @component_name %>.log 2>&1
+end script
