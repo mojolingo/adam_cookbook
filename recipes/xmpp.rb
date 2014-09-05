@@ -1,6 +1,8 @@
 include_recipe 'adam_snark_rabbit::base'
 
-chef_gem "chef-rewind"
+chef_gem "chef-rewind" do
+  version "0.0.8"
+end
 require 'chef/rewind'
 
 include_recipe "ejabberd"
