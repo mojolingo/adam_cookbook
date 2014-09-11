@@ -10,23 +10,14 @@ recipe 'adam_snark_rabbit',              'Installs all of Adam Snark Rabbit'
 recipe 'adam_snark_rabbit::base',        'Sets up base system requirements for deployment of Adam Snark Rabbit components'
 recipe 'adam_snark_rabbit::app',         'Deploys the selected application components of Adam Snark Rabbit'
 recipe 'adam_snark_rabbit::mongo',       'Installs MongoDB for use by Adams Memory'
-recipe 'adam_snark_rabbit::remove_dash', 'Removes Dash as the default shell from Ubuntu due to incompatability with POSIX sh'
-recipe 'adam_snark_rabbit::user',        'Sets up the Adam user'
 recipe 'adam_snark_rabbit::xmpp',        'Installs an XMPP server for use by Adam components including Fingers'
 
 %w{ ubuntu debian }.each do |os|
   supports os
 end
 
-depends 'application', '~> 4.0'
-depends 'application_nginx', '~> 2.0'
 depends 'apt'
-depends 'brightbox-ruby', '~> 1.1'
-depends 'ejabberd', '~> 1.0'
-depends 'git'
-depends 'mongodb'
+depends 'docker', '~> 0.35.2'
 depends 'motd-tail', '~> 1.0'
 depends 'nginx', '~> 2.4'
-depends 'postfix'
-depends 'ruby_build'
 depends 'sudo', '~> 2.2'

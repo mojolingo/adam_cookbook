@@ -47,18 +47,6 @@ Alternatively select appropriate recipes for individual components for distribut
       </td>
     </tr>
     <tr>
-      <td>adam_snark_rabbit::remove_dash</td>
-      <td>
-        Removes Dash as the default shell from Ubuntu due to incompatability with POSIX sh
-      </td>
-    </tr>
-    <tr>
-      <td>adam_snark_rabbit::user</td>
-      <td>
-        Sets up the Adam user
-      </td>
-    </tr>
-    <tr>
       <td>adam_snark_rabbit::xmpp</td>
       <td>
         Installs an XMPP server for use by Adam components including Fingers
@@ -86,37 +74,47 @@ Alternatively select appropriate recipes for individual components for distribut
       <td>"production"</td>
     </tr>
     <tr>
-      <td>adam/standalone_deployment</td>
-      <td>
-        Wether to deploy Adam's application components in a production manner (true), or to inherit from a shared directory (false) for the use of active development of Adam's application components.
-      </td>
-      <td>true</td>
-    </tr>
-    <tr>
       <td>adam/deployment_path</td>
       <td>
         The path at which to deploy Adam's application components.
       </td>
       <td>"/srv/adam"</td>
     </tr>
+default['adam']['repo']['email']          = '.'
+default['adam']['repo']['username']       = nil
+default['adam']['repo']['password']       = nil
     <tr>
-      <td>adam/app_repo_url</td>
+      <td>adam/repo/domain</td>
       <td>
-        The URL of the repo from which to clone Adam's source code.
+        The URL of the repo from which to clone Adam's components.
       </td>
-      <td>"git@github.com:mojolingo/Adam.Snark.Rabbit.git"</td>
+      <td>"quay.io"</td>
     </tr>
     <tr>
-      <td>adam/app_repo_ref</td>
+      <td>adam/repo/tag</td>
       <td>
-        The repository reference (git branch, tag or commit ID) to checkout for deployment. The default of "master" provides the latest changes to Adam. Adam does not currently get versioned releases (for purposes of continuous deployment).
+        The repository reference to checkout for deployment. The default of "latest" provides the latest changes to Adam.
       </td>
-      <td>"master"</td>
+      <td>"latest"</td>
     </tr>
     <tr>
-      <td>adam/deploy_key</td>
+      <td>adam/repo/email</td>
       <td>
-        The private SSH key with which to clone the Adam Snark Rabbit source repository for deployment. Must be specified with newlines intact.
+        The email address for the account with which to clone the Adam Snark Rabbit components for deployment.
+      </td>
+      <td>'.'</td>
+    </tr>
+    <tr>
+      <td>adam/repo/username</td>
+      <td>
+        The username for the account with which to clone the Adam Snark Rabbit components for deployment.
+      </td>
+      <td>nil</td>
+    </tr>
+    <tr>
+      <td>adam/repo/password</td>
+      <td>
+        The password for the account with which to clone the Adam Snark Rabbit components for deployment.
       </td>
       <td>nil</td>
     </tr>
@@ -197,19 +195,25 @@ Alternatively select appropriate recipes for individual components for distribut
       </td>
       <td>'localhost'</td>
     </tr>
-    <tr>
-      <td>adam/memory/application_servers</td>
-      <td>
-        The set of servers running the Memory application server. Since the reverse proxy and application server are always colocated on the same machine, you should never need to change this.
-      </td>
-      <td>`['127.0.0.1']`</td>
-    </tr>
   </tbody>
 </table>
 
 # Testing
 
-In order to run tests (using Test Kitchen) you will need to place a deploy key for Adam Rabbit in `./deploy_key`. You can then run the full test suite using `make`.
+In order to run tests (using Test Kitchen) you will need to place credentials for Adam Rabbit in `.kitchen.local.yml` with the following format. You can then run the full test suite using `make`.
+
+```yaml
+---
+suites:
+- name: default
+  run_list: ['recipe[adam_snark_rabbit]']
+  attributes:
+    adam:
+      repo:
+        email: foo@bar.com
+        username: foobar
+        password: abc123
+```
 
 # Author
 

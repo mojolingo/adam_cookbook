@@ -1,11 +1,7 @@
-default: bundle update_cookbooks foodcritic integration
+default: bundle foodcritic integration
 
 bundle:
-	bundle update
-
-update_cookbooks:
-	berks install
-	berks update
+	bundle install
 
 foodcritic:
 	thor foodcritic:lint --epic-fail any

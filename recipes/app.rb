@@ -1,179 +1,64 @@
-include_recipe 'adam_snark_rabbit::base'
+include_recipe "adam_snark_rabbit::base"
 
-%w{
-  libpcre3
-  libpcre3-dev
-  libxml2
-  libxslt1-dev
-}.each { |p| package p }
+directory '/etc/adam'
 
-include_recipe "git"
-include_recipe "postfix"
-
-include_recipe "adam_snark_rabbit::ruby"
-
-ruby_components = []
-
-if node['adam']['memory']['install']
-  ruby_components << 'memory'
+template '/etc/adam/environment' do
+  cookbook 'adam_snark_rabbit'
+  source "environment.erb"
 end
 
 if node['adam']['brain']['install']
-  ruby_components << 'brain'
+  docker_image 'quay.io/mojolingo/adam-snark-rabbit-basic-brain' do
+    tag node['adam']['repo']['tag']
+    cmd_timeout 1000
+    notifies :redeploy, 'docker_container[adam_xmpp_server]', :immediately
+  end
+
+  docker_container 'adam-snark-rabbit-basic-brain' do
+    image 'quay.io/mojolingo/adam-snark-rabbit-basic-brain'
+    container_name 'adam-snark-rabbit-basic-brain'
+    detach true
+    env_file '/etc/adam/environment'
+    env 'ADAM_FINGERS_HOST=xmpp'
+    link 'adam_xmpp_server:xmpp'
+  end
 end
 
-unless ruby_components.empty?
-  gem_package 'foreman'
+if node['adam']['memory']['install']
+  docker_image 'quay.io/mojolingo/adam-snark-rabbit-basic-memory' do
+    tag node['adam']['repo']['tag']
+    cmd_timeout 1000
+    notifies :redeploy, 'docker_container[adam_xmpp_server]', :immediately
+  end
 
-  if node['adam']['standalone_deployment']
-    links = {}
-    ruby_components.each do |component|
-      links["#{component}/vendor/ruby"] = "#{component}/vendor/ruby"
-    end
+  docker_container 'adam-snark-rabbit-basic-memory' do
+    image 'quay.io/mojolingo/adam-snark-rabbit-basic-memory'
+    container_name 'adam-snark-rabbit-basic-memory'
+    detach true
+    env_file '/etc/adam/environment'
+    env 'PORT=3000'
+    port '3000:3000'
+  end
 
-    links.each_pair do |source_dir, symlink|
-      directory File.join(node['adam']['deployment_path'], 'shared', source_dir) do
-        recursive true
-        owner "adam"
-        group "adam"
-      end
-    end
+  include_recipe 'nginx'
 
-    %w{
-      /etc/adam
-      /var/log/adam
-      /var/run/adam
-    }.each do |dir|
-      directory dir do
-        owner "adam"
-      end
-    end
+  template "#{node['nginx']['dir']}/sites-available/adam.conf" do
+    cookbook 'adam_snark_rabbit'
+    source 'nginx_site.erb'
+    owner "root"
+    group "root"
+    mode "644"
+    variables application_name: 'adam',
+              port: 80,
+              server_name: node['fqdn'],
+              hosts: ['127.0.0.1:3000'],
+              bosh_host: "#{node['adam']['memory']['bosh_host']}:5280"
+    notifies :reload, resources('service[nginx]')
+  end
 
-    application "adam" do
-      path node['adam']['deployment_path']
-      owner "adam"
-      group "adam"
+  nginx_site "adam.conf"
 
-      repository node['adam']['app_repo_url']
-      revision node['adam']['app_repo_ref']
-
-      deploy_key node['adam']['deploy_key']
-
-      symlinks links
-
-      nginx_load_balancer do
-        application_port 3000
-        if node['adam']['memory']['application_servers'].empty?
-          application_server_role 'app'
-        else
-          hosts node['adam']['memory']['application_servers']
-        end
-        set_host_header true
-        cookbook_name 'adam_snark_rabbit'
-        template 'nginx_site.erb'
-        static_files "/assets" => "memory/public/assets",
-                     "/favicon.ico" => "memory/public/favicon.ico"
-      end
-
-      before_deploy do
-        template '/etc/adam/environment' do
-          cookbook 'adam_snark_rabbit'
-          source "environment.erb"
-          owner "adam"
-          group "adam"
-        end
-
-        template "/etc/init/adam.conf" do
-          source "upstart/adam.conf.erb"
-          mode 0744
-        end
-
-        ruby_components.each do |component|
-          template "/etc/init/adam-#{component}.conf" do
-            cookbook 'adam_snark_rabbit'
-            source "upstart/component.conf.erb"
-            mode 0755
-            variables :component_name => component,
-                      :base_directory => File.join(node['adam']['deployment_path'], 'current')
-          end
-        end
-
-        sudo 'adam' do
-          user      'adam'
-          runas     'ALL'
-          commands  ruby_components.map { |component| "/usr/sbin/service adam-#{component} restart" }
-          nopasswd  true
-        end
-
-        ruby_components.each do |component|
-          service "adam-#{component}" do
-            action :enable
-            provider Chef::Provider::Service::Upstart
-          end
-        end
-      end
-
-      before_restart do
-        ruby_components.each do |component|
-          execute "app_#{component}_dependencies" do
-            command "bundle install --deployment --path vendor/ruby"
-            cwd File.join(node['adam']['deployment_path'], 'current', component)
-          end
-        end
-      end
-
-      restart_command ruby_components.map { |component| "sudo service adam-#{component} restart" }.join(' && ')
-    end
-  else
-    ruby_components.each do |component|
-      execute "app_#{component}_dependencies" do
-        command "bundle install --path vendor/ruby"
-        cwd File.join(node['adam']['deployment_path'], 'current', component)
-        environment 'NOKOGIRI_USE_SYSTEM_LIBRARIES' => 'true'
-      end
-    end
-
-    execute "setup app services" do
-      command "foreman export upstart /etc/init -a adam"
-      cwd File.join(node['adam']['deployment_path'], 'current')
-    end
-
-    include_recipe 'nginx'
-
-    app_path = node['adam']['deployment_path']
-
-    static_files = {
-      "/assets" => "memory/public/assets",
-      "/favicon.ico" => "memory/public/favicon.ico"
-     }.inject({}) do |files, (url, path)|
-      files[url] = ::File.expand_path(path, ::File.join(app_path, "current"))
-      files
-    end
-
-    application = Struct.new(:name).new('adam')
-    resource = Struct.new(:application, :path, :application_port, :static_files, :set_host_header, :port, :server_name, :server_name, :ssl).new(application, app_path, 3000, static_files, true, 80, node['fqdn'], false)
-
-    template "#{node['nginx']['dir']}/sites-available/adam.conf" do
-      cookbook 'adam_snark_rabbit'
-      source 'nginx_site.erb'
-      owner "root"
-      group "root"
-      mode "644"
-      variables resource: resource,
-                hosts: ['127.0.0.1'],
-                application_socket: []
-      notifies :reload, resources('service[nginx]')
-    end
-
-    nginx_site "adam.conf"
-
-    nginx_site "default" do
-      enable false
-    end
-
-    service 'adam' do
-      action :enable
-      provider Chef::Provider::Service::Upstart
-    end
+  nginx_site "default" do
+    enable false
   end
 end

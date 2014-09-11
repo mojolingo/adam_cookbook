@@ -1,26 +1,23 @@
-export HOME=<%= node['adam']['deployment_path'] %>
-export PORT=3000
+ADAM_ROOT_DOMAIN=<%= node['adam']['root_domain'] %>
+RAILS_ENV=<%= node['adam']['environment'] %>
 
-export ADAM_ROOT_DOMAIN=<%= node['adam']['root_domain'] %>
-export RAILS_ENV=<%= node['adam']['environment'] %>
+GITHUB_KEY=<%= node['adam']['github_key'] %>
+GITHUB_SECRET=<%= node['adam']['github_secret'] %>
+TWITTER_KEY=<%= node['adam']['twitter_key'] %>
+TWITTER_SECRET=<%= node['adam']['twitter_secret'] %>
 
-export GITHUB_KEY=<%= node['adam']['github_key'] %>
-export GITHUB_SECRET=<%= node['adam']['github_secret'] %>
-export TWITTER_KEY=<%= node['adam']['twitter_key'] %>
-export TWITTER_SECRET=<%= node['adam']['twitter_secret'] %>
+MONGOID_HOST=<%= node['adam']['memory']['mongoid_host'] %>
+ADAM_MEMORY_URL=<%= node['adam']['memory_base_url'] %>
+ADAM_MEMORY_INTERNAL_USERNAME=<%= node['adam']['memory']['internal_username'] %>
+ADAM_MEMORY_INTERNAL_PASSWORD=<%= node['adam']['memory']['internal_password'] %>
 
-export MONGOID_HOST=<%= node['adam']['memory']['mongoid_host'] %>
-export ADAM_MEMORY_URL=<%= node['adam']['memory_base_url'] %>
-export ADAM_MEMORY_INTERNAL_USERNAME=<%= node['adam']['memory']['internal_username'] %>
-export ADAM_MEMORY_INTERNAL_PASSWORD=<%= node['adam']['memory']['internal_password'] %>
+ADAM_FINGERS_JID=adam@<%= node['adam']['root_domain'] %>
+ADAM_FINGERS_PASSWORD=abc123
+ADAM_FINGERS_DEBUG=true
+ADAM_BRAIN_REPORTER_API_KEY=<%= node['adam']['reporter']['api_key'] %>
+ADAM_BRAIN_REPORTER_URL=<%= node['adam']['reporter']['url'] %>
 
-export ADAM_FINGERS_JID=adam@<%= node['adam']['root_domain'] %>
-export ADAM_FINGERS_PASSWORD=abc123
-export ADAM_FINGERS_DEBUG=true
-export ADAM_BRAIN_REPORTER_API_KEY=<%= node['adam']['reporter']['api_key'] %>
-export ADAM_BRAIN_REPORTER_URL=<%= node['adam']['reporter']['url'] %>
+WIT_API_KEY=<%= node['adam']['wit_api_key'] %>
 
-export WIT_API_KEY=<%= node['adam']['wit_api_key'] %>
-
-export BING_TRANSLATE_KEY=<%= node['adam']['bing_translate_key'] %>
-export BING_TRANSLATE_SECRET=<%= node['adam']['bing_translate_secret'] %>
+BING_TRANSLATE_KEY=<%= node['adam']['bing_translate_key'] %>
+BING_TRANSLATE_SECRET=<%= node['adam']['bing_translate_secret'] %>

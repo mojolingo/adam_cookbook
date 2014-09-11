@@ -1,12 +1,7 @@
 require 'spec_helper'
 
 describe 'Adam Snark Rabbit' do
-  describe user('adam') do
-    it { should exist }
-    it { should belong_to_group 'adam' }
-  end
-
-  describe service('ejabberd') do
+  describe service('adam_xmpp_server') do
     it { should be_running }
   end
 
@@ -14,15 +9,15 @@ describe 'Adam Snark Rabbit' do
     it { should be_running }
   end
 
-  describe service('adam-brain') do
+  describe service('adam-snark-rabbit-basic-brain') do
     it { should be_running }
   end
 
-  describe service('adam-memory') do
+  describe service('adam-snark-rabbit-basic-memory') do
     it { should be_running }
   end
 
-  describe port(5222) do
+  describe port(80) do
     it { should be_listening.with('tcp') }
   end
 end

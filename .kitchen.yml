@@ -8,11 +8,13 @@ provisioner:
   name: chef_solo
 
 platforms:
-  - name: ubuntu-12.04
+  - name: ubuntu-14.04
 
 suites:
 - name: default
   run_list: ['recipe[adam_snark_rabbit]']
   attributes:
     adam:
-      deploy_key: <%= File.read('deploy_key').inspect %>
+      repo:
+        username: <%= ENV['ADAM_REPO_USERNAME'] %>
+        password: <%= ENV['ADAM_REPO_PASSWORD'] %>
