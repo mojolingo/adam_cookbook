@@ -11,7 +11,7 @@ if node['adam']['brain']['install']
   docker_image 'quay.io/mojolingo/adam-snark-rabbit-basic-brain' do
     tag node['adam']['repo']['tag']
     cmd_timeout 1000
-    notifies :redeploy, 'docker_container[adam_xmpp_server]', :immediately
+    notifies :redeploy, 'docker_container[adam-snark-rabbit-basic-brain]', :immediately
   end
 
   docker_container 'adam-snark-rabbit-basic-brain' do
@@ -28,7 +28,7 @@ if node['adam']['memory']['install']
   docker_image 'quay.io/mojolingo/adam-snark-rabbit-basic-memory' do
     tag node['adam']['repo']['tag']
     cmd_timeout 1000
-    notifies :redeploy, 'docker_container[adam_xmpp_server]', :immediately
+    notifies :redeploy, 'docker_container[adam-snark-rabbit-basic-memory]', :immediately
   end
 
   docker_container 'adam-snark-rabbit-basic-memory' do
