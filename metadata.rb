@@ -1,7 +1,7 @@
 name              'adam_snark_rabbit'
 maintainer        'Mojo Lingo LLC'
 maintainer_email  'ops@mojolingo.com'
-license           'Proprietary'
+license           'MIT'
 description       'Installs Adam Snark Rabbit'
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version           '0.1.0'

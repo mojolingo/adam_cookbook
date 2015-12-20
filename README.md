@@ -218,3 +218,5 @@ suites:
 # Author
 
 [Ben Langfeld](@benlangfeld)
+
+This cookbook is Copyright Mojo Lingo, LLC 2015 and is available under the MIT license.
